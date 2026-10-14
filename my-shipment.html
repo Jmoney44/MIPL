@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Track Your Shipment — MIPL</title>
+<meta name="description" content="View the latest online status for your MIPL cross-border shipment.">
+<meta name="robots" content="noindex">
+
+<link rel="icon" type="image/png" href="image/logo.png">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+<style>
+  .ship-wrap{ max-width:760px; margin:0 auto; }
+  .ship-card{
+    background:var(--white); border:1px solid var(--line); border-radius:6px;
+    box-shadow:var(--shadow-soft); overflow:hidden; margin-top:-64px; position:relative; z-index:5;
+  }
+  .ship-card-head{
+    background:var(--navy-900); color:var(--white); padding:26px 30px;
+    display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:14px;
+  }
+  .ship-card-head .mono{ font-family:var(--font-mono); font-size:13px; color:rgba(255,255,255,0.6); letter-spacing:0.04em; }
+  .ship-card-head h2{ color:var(--white); font-size:24px; margin-top:4px; letter-spacing:0.01em; }
+  .status-pill{
+    display:inline-flex; align-items:center; gap:8px; background:var(--signal); color:var(--navy-900);
+    padding:9px 16px; border-radius:20px; font-family:var(--font-mono); font-size:12px;
+    font-weight:600; letter-spacing:0.06em; text-transform:uppercase; white-space:nowrap;
+  }
+  .status-pill .pulse-dot{ width:8px; height:8px; background:var(--white); }
+  .status-pill .pulse-dot::after{ border-color:var(--white); }
+
+  .detail-table{ width:100%; border-collapse:collapse; }
+  .detail-table tr{ border-bottom:1px solid var(--line); }
+  .detail-table tr:last-child{ border-bottom:none; }
+  .detail-table td{ padding:16px 30px; font-size:14.5px; vertical-align:top; }
+  .detail-table td:first-child{
+    font-family:var(--font-mono); font-size:11.5px; letter-spacing:0.07em; text-transform:uppercase;
+    color:#7A8792; width:190px; padding-top:18px;
+  }
+  .detail-table td:last-child{ color:var(--ink); font-weight:500; }
+  .note-box{
+    background:var(--paper-dim); border-left:3px solid var(--signal); border-radius:0 3px 3px 0;
+    padding:12px 14px; font-size:13.5px; color:#4A5A66; margin-top:4px;
+  }
+  .ship-map-wrap{
+    height:340px; border-top:1px solid var(--line); border-bottom:1px solid var(--line);
+    position:relative; background:var(--paper-dim);
+  }
+  #shipMap{ height:100%; width:100%; }
+  .ship-map-legend{
+    position:absolute; bottom:12px; left:12px; z-index:400;
+    background:rgba(255,255,255,0.95); border:1px solid var(--line);
+    border-radius:4px; padding:8px 12px; font-family:var(--font-mono); font-size:10.5px;
+    display:flex; gap:12px;
+  }
+  .ship-map-legend .dot{ width:8px; height:8px; border-radius:50%; display:inline-block; margin-right:5px; }
+  .pulse-dot{
+    width:14px; height:14px; border-radius:50%; background:#1C8A5B; position:relative;
+  }
+  .pulse-dot::after{
+    content:''; position:absolute; inset:-6px; border-radius:50%; border:2px solid #1C8A5B;
+    animation:pulseRing 1.6s ease-out infinite;
+  }
+  @keyframes pulseRing{
+    0%{ transform:scale(0.6); opacity:0.9; }
+    100%{ transform:scale(1.6); opacity:0; }
+  }
+
+  .ship-footer-row{
+    display:flex; align-items:center; justify-content:space-between; gap:12px;
+    padding:18px 30px; background:var(--paper-dim); flex-wrap:wrap;
+  }
+  .live-indicator{ display:flex; align-items:center; gap:8px; font-family:var(--font-mono); font-size:11.5px; color:#7A8792; }
+  .live-indicator .dot{ width:7px; height:7px; border-radius:50%; background:var(--ok); position:relative; }
+  .live-indicator .dot::after{
+    content:''; position:absolute; inset:-4px; border-radius:50%; border:1.5px solid var(--ok);
+    animation:pulseRing 1.8s ease-out infinite;
+  }
+  .btn-refresh-lg{
+    display:inline-flex; align-items:center; gap:7px; background:var(--white); border:1px solid var(--line);
+    color:var(--navy-800); font-size:12.5px; padding:9px 16px; border-radius:20px; font-family:var(--font-mono);
+  }
+  .btn-refresh-lg:hover{ border-color:var(--navy-700); }
+  .btn-refresh-lg svg{ width:14px; height:14px; }
+  .btn-refresh-lg.spinning svg{ animation:spin 0.8s linear infinite; }
+  @keyframes spin{ to{ transform:rotate(360deg); } }
+
+  .lookup-box{
+    max-width:420px; margin:120px auto; background:var(--white); border:1px solid var(--line);
+    border-radius:6px; padding:36px; box-shadow:var(--shadow-soft); text-align:center;
+  }
+  .lookup-box input{
+    width:100%; border:1.5px solid var(--line); border-radius:3px; padding:12px 14px;
+    font-size:14.5px; margin:16px 0; text-align:center; font-family:var(--font-mono);
+  }
+  .state-msg{ text-align:center; padding:80px 20px; color:#7A8792; font-family:var(--font-mono); font-size:13px; }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a href="index.html" class="brand">
+      <span class="brand-mark"><img src="image/logo.png" alt="MIPL — Mexican International Protocol Logistics"></span>
+    </a>
+    <button class="nav-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="main-nav" aria-label="Primary">
+      <a href="index.html">Home &amp; Services</a>
+      <a href="about-contact.html">About &amp; Contact</a>
+      <a href="my-shipment.html" class="nav-cta">Track Shipment</a>
+    </nav>
+  </div>
+</header>
+
+<section class="track-hero" style="padding-bottom:120px;">
+  <div class="wrap">
+    <span class="eyebrow hero-eyebrow">Your Shipment</span>
+    <h1 style="color:white; font-size:clamp(30px,4vw,44px); margin-top:14px;">Shipment updates at a glance.</h1>
+    <p style="color:rgba(255,255,255,.72); margin-top:14px; max-width:720px;">Mexico-to-Canada shipments include a U.S. customs stop and a separate Canadian customs review. Customs decisions are made by the relevant authorities.</p>
+    <p class="breadcrumb"><a href="index.html">Home</a> <span>/</span> Your Shipment</p>
+  </div>
+</section>
+
+<section class="section" style="padding-top:0;">
+  <div class="wrap ship-wrap" id="pageBody">
+    <div class="state-msg">Loading your shipment…</div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="wrap footer-grid">
+    <div class="footer-brand">
+      <a href="index.html" class="brand" style="color:white;">
+        <span class="brand-mark"><img src="image/logo.png" alt="MIPL — Mexican International Protocol Logistics"></span>
+      </a>
+      <p>Private cross-border logistics with documented handling, customs paperwork, chain-of-custody records, and online tracking.</p>
+    </div>
+    <div>
+      <h4>Sitemap</h4>
+      <ul>
+        <li><a href="index.html">Home &amp; Services</a></li>
+        <li><a href="about-contact.html">About Us</a></li>
+        <li><a href="request-shipment.html">Request a Shipment</a></li>
+        <li><a href="my-shipment.html">Track a Shipment</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Services</h4>
+      <ul>
+        <li><a href="index.html#services">Sealed-package handling</a></li>
+        <li><a href="index.html#services">Customs documentation</a></li>
+        <li><a href="index.html#services">Shipment tracking</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Head Office</h4>
+      <div class="footer-contact-line">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        <span>Calle Ignacio Allende, Centro, 36100 Silao de la Victoria, Gto., Mexico</span>
+      </div>
+      <div class="footer-contact-line">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="m4 4 8 8 8-8"/></svg>
+        <a href="mailto:milogisticsprotocol@gmail.com">milogisticsprotocol@gmail.com</a>
+      </div>
+    </div>
+  </div>
+  <div class="wrap footer-bottom">
+    <span>&copy; 2026 Mexican International Protocol Logistics. All rights reserved.</span>
+    <span>MIPL is a private logistics brand; no diplomatic privileges are claimed.</span>
+  </div>
+</footer>
+
+<script src="js/my-shipment.js"></script>
+<script src="js/mobile-menu.js"></script>
+<script src="js/chat-widget.js"></script>
+</body>
+</html>
