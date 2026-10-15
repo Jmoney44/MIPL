@@ -1,4 +1,4 @@
-const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwLVjUCpPmQArtPeKw-bex55GP9xDf3F7qPrKPuaMvhRf1xf3a_ETEEy9Oy2A8DLc4OLQ/exec";
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx4LK14cbdDUWrHvPXVLI4QjLYGd6Mxth3Ch01GW7V7Fj_4EIONiW8EQS7JSaVALgV0/exec";
 const shipmentForm = document.getElementById('shipmentForm');
 
 if (shipmentForm) {
