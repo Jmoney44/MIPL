@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Request a Shipment — MIPL</title>
-<meta name="description" content="Submit details for a documented cross-border shipment from Mexico to Canada with MIPL.">
+<title>Request a Shipment — Mexican International Protocol Logistics</title>
+<meta name="description" content="Request a secure, documented cross-border shipment with Mexico-based Mexican International Protocol Logistics (MIPL).">
 
-<link rel="icon" type="image/png" href="image/logo.png">
+<link rel="icon" type="image/png" href="image/favicon.png">
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -14,7 +14,8 @@
 <header class="site-header">
   <div class="wrap header-inner">
     <a href="index.html" class="brand">
-      <span class="brand-mark"><img src="image/logo.png" alt="MIPL — Mexican International Protocol Logistics"></span>
+      <span class="brand-mark"><img src="image/logo.png" alt="Mexican International Protocol Logistics logo"></span>
+      <span>Mexican International<br><small>Protocol Logistics</small></span>
     </a>
     <button class="nav-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false">
       <span></span><span></span><span></span>
@@ -31,7 +32,7 @@
 <section class="page-hero">
   <div class="wrap">
     <span class="eyebrow hero-eyebrow">New Shipment</span>
-    <h1>Tell us about your<br>cross-border shipment.</h1>
+    <h1>Request a secure,<br>documented shipment.</h1>
     <p class="breadcrumb"><a href="index.html">Home</a> <span>/</span> Request a Shipment</p>
   </div>
 </section>
@@ -41,7 +42,7 @@
 
     <div class="form-card">
       <h3 style="font-size:22px; margin-bottom:6px;">Shipment Details</h3>
-      <p style="font-size:14px; color:#7A8792; margin-bottom:22px;">Fields marked with an asterisk are required. The route from Mexico to Canada includes customs inspections in the United States and Canada. Customs authorities determine inspection and clearance.</p>
+      <p style="font-size:14px; color:#7A8792; margin-bottom:22px;">Fields marked with an asterisk are required. MIPL coordinates shipments between Mexico, Canada, the United States, South America, and Europe. Mexico-to-Canada shipments stop for customs checks in the United States and Canada.</p>
 
       <form id="shipmentForm" novalidate>
         <div class="field-row">
@@ -56,16 +57,17 @@
           <div class="field">
             <label for="sservice">Service *</label>
             <select id="sservice" name="sservice" required>
-              <option value="Mexico to Canada Cross-Border Shipment">Mexico to Canada cross-border shipment</option>
-              <option value="Secure Document Shipment">Secure document shipment</option>
-              <option value="Other">Other</option>
+              <option value="Cross-Border Shipment">Cross-border shipment</option>
+              <option value="Sealed-Package Handling">Sealed-package handling</option>
+              <option value="Customs Documentation">Customs documentation</option>
+              <option value="Chain-of-Custody Records and Online Tracking">Chain-of-custody records and online tracking</option>
             </select>
           </div>
           <div class="field"><label for="seta">Estimated delivery date</label><input id="seta" name="seta" type="date"></div>
         </div>
         <div class="field-row">
-          <div class="field"><label for="sorigin">Origin (pickup location) *</label><input id="sorigin" name="sorigin" type="text" required placeholder="e.g. Silao, Guanajuato, Mexico"></div>
-          <div class="field"><label for="sdest">Destination *</label><input id="sdest" name="sdest" type="text" required placeholder="e.g. Toronto, Ontario, Canada"></div>
+          <div class="field"><label for="sorigin">Origin (pickup location) *</label><input id="sorigin" name="sorigin" type="text" required placeholder="e.g. Silao de la Victoria, Mexico"></div>
+          <div class="field"><label for="sdest">Destination *</label><input id="sdest" name="sdest" type="text" required placeholder="e.g. Toronto, Canada"></div>
         </div>
         <div class="field-row">
           <div class="field"><label for="sdesc">Item description</label><input id="sdesc" name="sdesc" type="text" placeholder="e.g. Electronics — 3 cartons"></div>
@@ -81,7 +83,7 @@
           Submit &amp; Get Tracking Number
         </button>
 
-        <p class="form-note" id="formNote">Submitting creates a shipment record. MIPL will update its tracking status as information becomes available.</p>
+        <p class="form-note" id="formNote">Submitting creates a row in our dispatch system with status "Picked Up". A team member will update it as the shipment moves.</p>
 
         <div class="form-success" id="formSuccess" style="flex-direction:column; align-items:flex-start; gap:10px;">
           <div style="display:flex; align-items:center; gap:10px;">
@@ -106,9 +108,10 @@
   <div class="wrap footer-grid">
     <div class="footer-brand">
       <a href="index.html" class="brand" style="color:white;">
-        <span class="brand-mark"><img src="image/logo.png" alt="MIPL — Mexican International Protocol Logistics"></span>
+        <span class="brand-mark"><img src="image/logo.png" alt="Mexican International Protocol Logistics logo"></span>
+        <span>Mexican International<br><small>Protocol Logistics</small></span>
       </a>
-      <p>Private cross-border logistics with documented handling, customs paperwork, chain-of-custody records, and online tracking.</p>
+      <p>Secure, documented cross-border shipments with sealed-package handling, customs documentation, chain-of-custody records, and online tracking.</p>
     </div>
     <div>
       <h4>Sitemap</h4>
@@ -123,8 +126,10 @@
       <h4>Services</h4>
       <ul>
         <li><a href="index.html#services">Sealed-package handling</a></li>
+        <li><a href="index.html#services">Shipment identification</a></li>
         <li><a href="index.html#services">Customs documentation</a></li>
-        <li><a href="index.html#services">Shipment tracking</a></li>
+        <li><a href="index.html#services">Chain-of-custody records</a></li>
+        <li><a href="index.html#services">Online tracking</a></li>
       </ul>
     </div>
     <div>
@@ -140,13 +145,10 @@
     </div>
   </div>
   <div class="wrap footer-bottom">
-    <span>&copy; 2026 Mexican International Protocol Logistics. All rights reserved.</span>
-    <span>MIPL is a private logistics brand; no diplomatic privileges are claimed.</span>
+    <span>&copy; 2026 Mexican International Protocol Logistics.</span>
+    <span>MIPL is a private logistics brand and is not a diplomatic mission, diplomatic courier, or representative of the Mexican Government or Secretaría de Relaciones Exteriores (SRE). Diplomatic privileges are not claimed.</span>
   </div>
 </footer>
-
 <script src="js/request-shipment.js"></script>
 <script src="js/mobile-menu.js"></script>
 <script src="js/chat-widget.js"></script>
-</body>
-</html>

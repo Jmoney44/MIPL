@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Track Your Shipment — MIPL</title>
-<meta name="description" content="View the latest online status for your MIPL cross-border shipment.">
+<title>Your Shipment — Mexican International Protocol Logistics</title>
+<meta name="description" content="View the online status of your MIPL cross-border shipment.">
 <meta name="robots" content="noindex">
 
-<link rel="icon" type="image/png" href="image/logo.png">
+<link rel="icon" type="image/png" href="image/favicon.png">
 <link rel="stylesheet" href="css/style.css">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
 <style>
@@ -23,7 +23,7 @@
   .ship-card-head .mono{ font-family:var(--font-mono); font-size:13px; color:rgba(255,255,255,0.6); letter-spacing:0.04em; }
   .ship-card-head h2{ color:var(--white); font-size:24px; margin-top:4px; letter-spacing:0.01em; }
   .status-pill{
-    display:inline-flex; align-items:center; gap:8px; background:var(--signal); color:var(--navy-900);
+    display:inline-flex; align-items:center; gap:8px; background:var(--signal); color:var(--white);
     padding:9px 16px; border-radius:20px; font-family:var(--font-mono); font-size:12px;
     font-weight:600; letter-spacing:0.06em; text-transform:uppercase; white-space:nowrap;
   }
@@ -102,7 +102,8 @@
 <header class="site-header">
   <div class="wrap header-inner">
     <a href="index.html" class="brand">
-      <span class="brand-mark"><img src="image/logo.png" alt="MIPL — Mexican International Protocol Logistics"></span>
+      <span class="brand-mark"><img src="image/logo.png" alt="Mexican International Protocol Logistics logo"></span>
+      <span>Mexican International<br><small>Protocol Logistics</small></span>
     </a>
     <button class="nav-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false">
       <span></span><span></span><span></span>
@@ -118,8 +119,8 @@
 <section class="track-hero" style="padding-bottom:120px;">
   <div class="wrap">
     <span class="eyebrow hero-eyebrow">Your Shipment</span>
-    <h1 style="color:white; font-size:clamp(30px,4vw,44px); margin-top:14px;">Shipment updates at a glance.</h1>
-    <p style="color:rgba(255,255,255,.72); margin-top:14px; max-width:720px;">Mexico-to-Canada shipments include a U.S. customs stop and a separate Canadian customs review. Customs decisions are made by the relevant authorities.</p>
+    <h1 style="color:white; font-size:clamp(30px,4vw,44px); margin-top:14px;">Live status, no refreshing needed.</h1>
+    <p style="color:rgba(255,255,255,.72); margin-top:14px; max-width:720px;">MIPL is based in Silao de la Victoria, Mexico, and coordinates shipments between Mexico, Canada, the United States, South America, and Europe. Mexico-to-Canada shipments include customs checks in the United States and Canada.</p>
     <p class="breadcrumb"><a href="index.html">Home</a> <span>/</span> Your Shipment</p>
   </div>
 </section>
@@ -134,9 +135,10 @@
   <div class="wrap footer-grid">
     <div class="footer-brand">
       <a href="index.html" class="brand" style="color:white;">
-        <span class="brand-mark"><img src="image/logo.png" alt="MIPL — Mexican International Protocol Logistics"></span>
+        <span class="brand-mark"><img src="image/logo.png" alt="Mexican International Protocol Logistics logo"></span>
+        <span>Mexican International<br><small>Protocol Logistics</small></span>
       </a>
-      <p>Private cross-border logistics with documented handling, customs paperwork, chain-of-custody records, and online tracking.</p>
+      <p>Secure, documented cross-border shipments with sealed-package handling, customs documentation, chain-of-custody records, and online tracking.</p>
     </div>
     <div>
       <h4>Sitemap</h4>
@@ -151,8 +153,10 @@
       <h4>Services</h4>
       <ul>
         <li><a href="index.html#services">Sealed-package handling</a></li>
+        <li><a href="index.html#services">Shipment identification</a></li>
         <li><a href="index.html#services">Customs documentation</a></li>
-        <li><a href="index.html#services">Shipment tracking</a></li>
+        <li><a href="index.html#services">Chain-of-custody records</a></li>
+        <li><a href="index.html#services">Online tracking</a></li>
       </ul>
     </div>
     <div>
@@ -168,12 +172,225 @@
     </div>
   </div>
   <div class="wrap footer-bottom">
-    <span>&copy; 2026 Mexican International Protocol Logistics. All rights reserved.</span>
-    <span>MIPL is a private logistics brand; no diplomatic privileges are claimed.</span>
+    <span>&copy; 2026 Mexican International Protocol Logistics.</span>
+    <span>MIPL is a private logistics brand and is not a diplomatic mission, diplomatic courier, or representative of the Mexican Government or Secretaría de Relaciones Exteriores (SRE). Diplomatic privileges are not claimed.</span>
   </div>
 </footer>
 
-<script src="js/my-shipment.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script>
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwLVjUCpPmQArtPeKw-bex55GP9xDf3F7qPrKPuaMvhRf1xf3a_ETEEy9Oy2A8DLc4OLQ/exec";
+const AUTO_REFRESH_MS = 30000; // how often to silently re-check status
+
+// Keep this list's wording in sync with tracking.js / admin.html.
+const STATUS_DESCRIPTIONS = {
+  "picked up": "Your package has been collected from the origin facility.",
+  "departed origin hub": "Shipment has departed its origin facility.",
+  "in transit": "Your shipment is moving toward the destination country.",
+  "arrived destination country": "Shipment has arrived in its destination country.",
+  "customs inspection": "Shipment is undergoing a customs inspection. Customs authorities determine requirements and clearance.",
+  "out for delivery": "Loaded onto the final-mile vehicle — arriving soon.",
+  "delivered": "Delivered to the recipient."
+};
+
+let currentId = null;
+let refreshTimer = null;
+
+function el(id){ return document.getElementById(id); }
+
+function fmtDate(str){
+  if(!str) return "—";
+  const d = new Date(str);
+  if(isNaN(d.getTime())) return str;
+  return d.toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' });
+}
+
+function fmtDateTime(){
+  return new Date().toLocaleTimeString('en-US', { hour:'2-digit', minute:'2-digit' });
+}
+
+function showLookupBox(){
+  el('pageBody').innerHTML = `
+    <div class="lookup-box">
+      <h2 style="font-size:20px; margin-bottom:6px;">View Your Shipment</h2>
+      <p style="font-size:13.5px; color:#7A8792;">Enter the tracking number you received when you submitted your shipment.</p>
+      <input type="text" id="lookupInput" placeholder="Enter your MIPL tracking number">
+      <button class="btn btn-signal" id="lookupBtn" style="width:100%; justify-content:center;">View Shipment</button>
+    </div>`;
+  el('lookupBtn').addEventListener('click', () => {
+    const val = el('lookupInput').value.trim();
+    if(!val) return;
+    const url = new URL(window.location.href);
+    url.searchParams.set('id', val);
+    window.location.href = url.toString();
+  });
+  el('lookupInput').addEventListener('keydown', e => { if(e.key === 'Enter') el('lookupBtn').click(); });
+}
+
+function num(v){
+  const n = parseFloat(v);
+  return isNaN(n) ? null : n;
+}
+
+let shipMap, shipOriginMarker, shipCurrentMarker, shipDestMarker, shipTraveled, shipRemaining;
+
+function renderShipMap(shipment){
+  const originLat = num(shipment.OriginLat), originLng = num(shipment.OriginLng);
+  const currentLat = num(shipment.CurrentLat) ?? originLat, currentLng = num(shipment.CurrentLng) ?? originLng;
+  const destLat = num(shipment.DestLat), destLng = num(shipment.DestLng);
+
+  if(!shipMap){
+    shipMap = L.map('shipMap', { zoomControl:true, attributionControl:true }).setView([20,0], 2);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 18, attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(shipMap);
+  }
+
+  [shipOriginMarker, shipCurrentMarker, shipDestMarker, shipTraveled, shipRemaining].forEach(l => { if(l) shipMap.removeLayer(l); });
+
+  function icon(color, pulse){
+    if(pulse){
+      return L.divIcon({ className:'', html:`<div class="pulse-dot" style="background:${color};"></div>`, iconSize:[14,14], iconAnchor:[7,7] });
+    }
+    return L.divIcon({
+      className:'',
+      html:`<div style="width:16px;height:16px;border-radius:50%;background:${color};border:3px solid white;box-shadow:0 0 0 2px ${color};"></div>`,
+      iconSize:[16,16], iconAnchor:[8,8]
+    });
+  }
+
+  const bounds = [];
+  if(originLat != null && originLng != null){
+    shipOriginMarker = L.marker([originLat, originLng], { icon: icon('#D2A33A') }).addTo(shipMap)
+      .bindPopup(`<b>Origin</b><br>${shipment.OriginLabel || ''}`);
+    bounds.push([originLat, originLng]);
+  }
+  if(currentLat != null && currentLng != null){
+    shipCurrentMarker = L.marker([currentLat, currentLng], { icon: icon('#1C8A5B', true) }).addTo(shipMap)
+      .bindPopup(`<b>Current Location</b><br>${shipment.CurrentLabel || ''}`);
+    bounds.push([currentLat, currentLng]);
+  }
+  if(destLat != null && destLng != null){
+    shipDestMarker = L.marker([destLat, destLng], { icon: icon('#16395C') }).addTo(shipMap)
+      .bindPopup(`<b>Destination</b><br>${shipment.Destination || ''}`);
+    bounds.push([destLat, destLng]);
+  }
+  if(originLat != null && currentLat != null){
+    shipTraveled = L.polyline([[originLat, originLng],[currentLat, currentLng]], { color:'#1C8A5B', weight:3 }).addTo(shipMap);
+  }
+  if(currentLat != null && destLat != null){
+    shipRemaining = L.polyline([[currentLat, currentLng],[destLat, destLng]], { color:'#16395C', weight:3, dashArray:'6 8' }).addTo(shipMap);
+  }
+
+  if(bounds.length > 1) shipMap.fitBounds(bounds, { padding:[36,36] });
+  else if(bounds.length === 1) shipMap.setView(bounds[0], 5);
+}
+
+function renderShipment(shipment, isSilentRefresh){
+  // Destroy the old Leaflet instance BEFORE the container div is wiped out by innerHTML.
+  // Leaflet doesn't know its container is about to disappear, so we clean it up manually.
+  if(shipMap){
+    shipMap.remove();
+    shipMap = null;
+    shipOriginMarker = shipCurrentMarker = shipDestMarker = shipTraveled = shipRemaining = null;
+  }
+  const statusKey = (shipment.Status || "").trim().toLowerCase();
+  const desc = STATUS_DESCRIPTIONS[statusKey] || "We'll update this as your shipment progresses.";
+
+  el('pageBody').innerHTML = `
+    <div class="ship-card">
+      <div class="ship-card-head">
+        <div>
+          <span class="mono">TRACKING NUMBER</span>
+          <h2>${shipment.TrackingNumber || ''}</h2>
+        </div>
+        <span class="status-pill"><span class="pulse-dot" style="width:8px;height:8px;"></span>${shipment.Status || '—'}</span>
+      </div>
+
+      <div class="ship-map-wrap">
+        <div id="shipMap"></div>
+        <div class="ship-map-legend">
+          <span><span class="dot" style="background:#D2A33A;"></span>Origin</span>
+          <span><span class="dot" style="background:#1C8A5B;"></span>Current</span>
+          <span><span class="dot" style="background:#16395C;"></span>Destination</span>
+        </div>
+      </div>
+
+      <table class="detail-table">
+        <tr><td>Status</td><td>${desc}</td></tr>
+        <tr><td>Item Description</td><td>${shipment.Description || '—'}</td></tr>
+        <tr><td>Unit / Quantity</td><td>${shipment.Unit || '—'}</td></tr>
+        <tr><td>Description</td><td>${shipment.Note ? `<div class="note-box">${shipment.Note}</div>` : '—'}</td></tr>
+        <tr><td>Service</td><td>${shipment.ServiceType || '—'}</td></tr>
+        <tr><td>Origin</td><td>${shipment.OriginLabel || '—'}</td></tr>
+        <tr><td>Current Location</td><td>${shipment.CurrentLabel || shipment.OriginLabel || '—'}</td></tr>
+        <tr><td>Destination</td><td>${shipment.Destination || '—'}</td></tr>
+        <tr><td>Estimated Delivery</td><td>${fmtDate(shipment.EstimatedDelivery)}</td></tr>
+        <tr><td>Last Updated</td><td>${fmtDate(shipment.LastUpdated)}</td></tr>
+      </table>
+
+      <div class="ship-footer-row">
+        <span class="live-indicator"><span class="dot"></span>Live — checked ${fmtDateTime()}</span>
+        <button class="btn-refresh-lg" id="manualRefresh">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 1 1-2.6-6.3M21 4v5h-5"/></svg>
+          Refresh Now
+        </button>
+      </div>
+    </div>
+    <p style="text-align:center; font-family:var(--font-mono); font-size:11.5px; color:#7A8792; margin-top:18px;">
+      Bookmark this page — it always shows the latest status for ${shipment.TrackingNumber}.
+    </p>
+  `;
+
+  el('manualRefresh').addEventListener('click', () => {
+    el('manualRefresh').classList.add('spinning');
+    loadShipment(currentId, true).then(() => el('manualRefresh') && el('manualRefresh').classList.remove('spinning'));
+  });
+
+  renderShipMap(shipment);
+}
+
+function showNotFound(id){
+  el('pageBody').innerHTML = `
+    <div class="lookup-box">
+      <h2 style="font-size:20px; margin-bottom:6px; color:#B23A2E;">Not Found</h2>
+      <p style="font-size:13.5px; color:#7A8792;">We couldn't find a shipment with tracking number <b>${id}</b>. Double-check it and try again, or contact us if the problem continues.</p>
+      <a class="btn btn-navy" style="width:100%; justify-content:center; margin-top:14px;" href="request-shipment.html">Request a New Shipment</a>
+    </div>`;
+}
+
+function loadShipment(id, isSilent){
+  if(!APPS_SCRIPT_URL || APPS_SCRIPT_URL.indexOf("PASTE_YOUR") === 0){
+    el('pageBody').innerHTML = `<div class="state-msg">Booking system isn't connected yet.</div>`;
+    return Promise.resolve();
+  }
+  return fetch(APPS_SCRIPT_URL + '?id=' + encodeURIComponent(id))
+    .then(res => res.json())
+    .then(data => {
+      if(data.success){
+        renderShipment(data.shipment, isSilent);
+      } else if(!isSilent){
+        showNotFound(id);
+      }
+    })
+    .catch(() => {
+      if(!isSilent) showNotFound(id);
+    });
+}
+
+// ---------------------------------------------------------------- init
+
+const params = new URLSearchParams(window.location.search);
+currentId = params.get('id');
+
+if(currentId){
+  loadShipment(currentId, false);
+  refreshTimer = setInterval(() => loadShipment(currentId, true), AUTO_REFRESH_MS);
+} else {
+  showLookupBox();
+}
+</script>
+
 <script src="js/mobile-menu.js"></script>
 <script src="js/chat-widget.js"></script>
 </body>

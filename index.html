@@ -3,16 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MIPL — Mexican International Protocol Logistics</title>
-<meta name="description" content="Secure, documented cross-border shipments from Mexico to Canada, with customs stops in the United States and Canada.">
-<link rel="icon" type="image/png" href="image/logo.png">
+<title>Mexican International Protocol Logistics (MIPL)</title>
+<meta name="description" content="MIPL is a Mexico-based cross-border logistics service for secure, documented shipments between Mexico, Canada, the United States, South America, and Europe.">
+
+<link rel="icon" type="image/png" href="image/favicon.png">
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+
 <header class="site-header">
   <div class="wrap header-inner">
-    <a href="index.html" class="brand" aria-label="MIPL home">
-      <span class="brand-mark"><img src="image/logo.png" alt="MIPL — Mexican International Protocol Logistics"></span>
+    <a href="index.html" class="brand">
+      <span class="brand-mark"><img src="image/logo.png" alt="Mexican International Protocol Logistics logo"></span>
+      <span>Mexican International<br><small>Protocol Logistics</small></span>
     </a>
     <button class="nav-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false">
       <span></span><span></span><span></span>
@@ -25,120 +28,238 @@
   </div>
 </header>
 
+<!-- ============================================================ HERO -->
 <section class="hero">
   <div class="wrap hero-grid">
     <div>
-      <span class="eyebrow hero-eyebrow">Mexico &middot; United States &middot; Canada</span>
-      <h1>Cross-border shipping,<br>documented at every step.</h1>
-      <p class="lede">MIPL coordinates secure, sealed-package shipments from Mexico to Canada, with a customs inspection stop in the United States and a second customs review in Canada. Follow shipment updates online from dispatch to delivery.</p>
+      <span class="eyebrow hero-eyebrow">Mexico &middot; Canada &middot; United States &middot; South America &middot; Europe</span>
+      <h1>Secure shipments,<br>documented at every step.</h1>
+      <p class="lede">Mexican International Protocol Logistics (MIPL) is based in Silao de la Victoria, Guanajuato, Mexico. We coordinate secure, documented shipments between Mexico, Canada, the United States, South America, and Europe, with sealed-package handling, shipment identification, customs documentation, chain-of-custody records, and online tracking.</p>
       <div class="hero-actions">
-        <a href="my-shipment.html" class="btn btn-signal">Track a Shipment</a>
-        <a href="about-contact.html#contact" class="btn btn-outline">Contact MIPL</a>
+        <a href="my-shipment.html" class="btn btn-signal">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+          Track a Shipment
+        </a>
+        <a href="about-contact.html#quote" class="btn btn-outline">Contact MIPL</a>
       </div>
       <div class="hero-stats">
-        <div class="hero-stat"><b>01</b><span>Sealed handling</span></div>
-        <div class="hero-stat"><b>02</b><span>Customs stops</span></div>
-        <div class="hero-stat"><b>03</b><span>Countries on route</span></div>
+        <div class="hero-stat"><b>Mexico</b><span>Company Base</span></div>
+        <div class="hero-stat"><b>5</b><span>Service Regions</span></div>
+        <div class="hero-stat"><b>MIPL</b><span>Shipment Tracking</span></div>
       </div>
     </div>
     <div class="route-fig">
-      <svg viewBox="0 0 480 360" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Route from Mexico through United States customs to Canada customs and delivery">
-        <path class="route-path" d="M40,300 C120,260 130,160 210,140 C280,122 300,60 430,50"/>
-        <path class="route-path is-live" d="M40,300 C120,260 130,160 210,140 C280,122 300,60 430,50"/>
-        <circle class="route-node origin" cx="40" cy="300" r="7"/>
-        <text class="route-tag" x="14" y="325">MEXICO</text>
-        <circle class="route-node" cx="210" cy="140" r="6"/>
-        <text class="route-tag" x="160" y="122">U.S. CUSTOMS</text>
-        <circle class="route-node" cx="320" cy="95" r="6"/>
-        <text class="route-tag" x="285" y="78">CANADA CUSTOMS</text>
-        <circle class="route-node dest" cx="430" cy="50" r="7"/>
-        <text class="route-tag" x="352" y="30">DELIVERY</text>
+      <svg viewBox="0 0 480 360" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Routes from Mexico through the United States to Canada, and from Mexico to South America and Europe">
+        <path class="route-path" d="M74,220 C112,203 145,176 185,157 C215,138 237,106 263,82"/>
+        <path class="route-path is-live" d="M74,220 C112,203 145,176 185,157 C215,138 237,106 263,82"/>
+        <path class="route-path" d="M74,220 C110,248 130,284 168,320"/>
+        <path class="route-path is-live" d="M74,220 C110,248 130,284 168,320"/>
+        <path class="route-path" d="M74,220 C160,202 260,155 331,108 C363,87 390,69 412,55"/>
+        <path class="route-path is-live" d="M74,220 C160,202 260,155 331,108 C363,87 390,69 412,55"/>
+        <circle class="route-node origin" cx="74" cy="220" r="7"/>
+        <text class="route-tag" x="49" y="245">MEXICO</text>
+        <circle class="route-node" cx="185" cy="157" r="6"/>
+        <text class="route-tag" x="132" y="143">THE UNITED STATES</text>
+        <circle class="route-node" cx="263" cy="82" r="6"/>
+        <text class="route-tag" x="237" y="58">CANADA</text>
+        <circle class="route-node dest" cx="168" cy="320" r="7"/>
+        <text class="route-tag" x="119" y="348">SOUTH AMERICA</text>
+        <circle class="route-node dest" cx="412" cy="55" r="7"/>
+        <text class="route-tag" x="388" y="34">EUROPE</text>
       </svg>
-      <div class="route-chip" style="top:8%; left:2%;">MEXICO &rarr; CANADA &middot; VIA U.S.</div>
     </div>
   </div>
 </section>
 
+<!-- ============================================================ SERVICES -->
 <section class="section" id="services">
   <div class="wrap">
     <div class="section-head">
       <span class="eyebrow">Our Services</span>
       <h2>Secure handling. Clear shipment records.</h2>
-      <p>We coordinate cross-border shipments with documented handling and online status updates. Customs inspections are conducted by the relevant authorities and can affect transit times.</p>
+      <p>MIPL supports cross-border shipments with sealed-package handling, shipment identification, customs documentation, chain-of-custody records, and online tracking.</p>
     </div>
+  </div>
+  <div class="wrap">
     <div class="card-grid">
+
       <article class="service-card">
         <span class="code">MIPL / HANDLING</span>
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="7" width="15" height="11"/><path d="M16 10h4l3 3v5h-7z"/><circle cx="5.5" cy="20" r="1.8"/><circle cx="18.5" cy="20" r="1.8"/></svg>
+        </div>
         <h3>Sealed-Package Handling</h3>
-        <p>Packages are identified and handled as sealed shipments, with handling records maintained through the stages coordinated by MIPL.</p>
+        <p>Packages are sealed and identified for documented handling through the shipment stages coordinated by MIPL.</p>
       </article>
+
       <article class="service-card">
         <span class="code">MIPL / DOCUMENTS</span>
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2 16 11l3.5-3.5a1.4 1.4 0 0 0-2-2L14 9l-8.2-1.8a1 1 0 0 0-1 1.65L8 11l-2 2H3l-1 2 3 1 1 3 2-1v-3l2-2 3.15 3.2a1 1 0 0 0 1.65-1z"/></svg>
+        </div>
         <h3>Customs Documentation</h3>
-        <p>Shipment identification and customs paperwork support for cross-border transit through the United States and entry into Canada.</p>
+        <p>Shipment identification and customs paperwork support for cross-border routes. Customs authorities make inspection and clearance decisions.</p>
       </article>
+
       <article class="service-card">
         <span class="code">MIPL / TRACKING</span>
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 21c1.6 1 3.4 1 5 0 1.6 1 3.4 1 5 0 1.6 1 3.4 1 5 0 1.6 1 3.4 1 5 0"/><path d="M4 18l1-9h10l3 6"/><path d="M9 9V4h3l2 5"/></svg>
+        </div>
         <h3>Chain of Custody &amp; Tracking</h3>
-        <p>Shipment records document key handoffs, and online tracking lets customers follow progress from pickup through customs stops to delivery.</p>
+        <p>Shipment records document key handoffs, while online tracking shows progress from pickup through delivery.</p>
       </article>
+
     </div>
   </div>
 </section>
 
+<!-- ============================================================ PHOTO BANNER -->
+<section class="section-tight">
+  <div class="wrap">
+    <div class="media-frame" style="height:550px;">
+      <img src="image/hero-placeholder.jpeg" alt="Mexican International Protocol Logistics cross-border shipments">
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ WHY CHOOSE US -->
 <section class="section section-navy">
   <div class="wrap">
     <div class="section-head">
-      <span class="eyebrow hero-eyebrow">Mexico to Canada</span>
-      <h2>The planned route includes two customs stops.</h2>
-      <p>For shipments on this lane, the box transits through the United States for customs inspection and is reviewed again by Canadian customs before delivery.</p>
+      <span class="eyebrow hero-eyebrow">Mexican International Protocol Logistics</span>
+      <h2>Secure shipments with clear records.</h2>
     </div>
     <div class="reason-list">
-      <div class="reason-row"><div class="reason-content"><span class="reason-code">01 / ORIGIN</span><h3>Mexico</h3><p>Shipment intake, identification, sealed handling, and preparation of applicable shipping documentation.</p></div></div>
-      <div class="reason-row"><div class="reason-content"><span class="reason-code">02 / TRANSIT</span><h3>United States customs</h3><p>The shipment stops for customs inspection while in transit through the United States.</p></div></div>
-      <div class="reason-row"><div class="reason-content"><span class="reason-code">03 / ENTRY</span><h3>Canadian customs</h3><p>A second customs review takes place in Canada before the shipment continues toward its destination.</p></div></div>
-      <div class="reason-row"><div class="reason-content"><span class="reason-code">04 / DELIVERY</span><h3>Canada</h3><p>Shipment status and chain-of-custody records continue through the delivery stage.</p></div></div>
+      <div class="reason-row">
+        <div class="media-frame on-dark reason-img" style="width: 50%; height: 100%;"><img src="image/reason-01.jpeg" alt="MIPL cross-border logistics"></div>
+        <div class="reason-content">
+          <span class="reason-code">MIPL / BASE</span>
+          <h3>Based in Mexico</h3>
+          <p>Mexican International Protocol Logistics is based in Silao de la Victoria, Guanajuato, Mexico, and coordinates secure, documented cross-border shipments.</p>
+        </div>
+      </div>
+      <div class="reason-row">
+        <div class="media-frame on-dark reason-img" style="width: 50%; height: 100%;"><img src="image/reason-02.jpeg" alt="Sealed-package handling"></div>
+        <div class="reason-content">
+          <span class="reason-code">MIPL / HANDLING</span>
+          <h3>Sealed-Package Handling</h3>
+          <p>MIPL provides sealed-package handling and shipment identification to support documented handling from pickup through delivery.</p>
+        </div>
+      </div>
+      <div class="reason-row">
+        <div class="media-frame on-dark reason-img" style="width: 50%; height: 100%;"><img src="image/reason-03.jpeg" alt="Shipment identification"></div>
+        <div class="reason-content">
+          <span class="reason-code">MIPL / IDENTIFICATION</span>
+          <h3>Shipment Identification</h3>
+          <p>Shipment identification helps keep package details connected with the corresponding documentation and tracking record.</p>
+        </div>
+      </div>
+      <div class="reason-row">
+        <div class="media-frame on-dark reason-img" style="width: 50%; height: 100%;"><img src="image/reason-04.jpeg" alt="Customs documentation"></div>
+        <div class="reason-content">
+          <span class="reason-code">MIPL / DOCUMENTS</span>
+          <h3>Customs Documentation</h3>
+          <p>MIPL provides customs documentation support. Inspection and clearance decisions are made by the relevant government authorities.</p>
+        </div>
+      </div>
+      <div class="reason-row">
+        <div class="media-frame on-dark reason-img" style="width: 50%; height: 100%;"><img src="image/reason-05.jpeg" alt="Shipment chain-of-custody records"></div>
+        <div class="reason-content">
+          <span class="reason-code">MIPL / CUSTODY</span>
+          <h3>Chain-of-Custody Records</h3>
+          <p>Chain-of-custody records document key shipment handoffs and support visibility throughout the coordinated route.</p>
+        </div>
+      </div>
+      <div class="reason-row">
+        <div class="media-frame on-dark reason-img" style="width: 50%; height: 100%;"><img src="image/reason-06.jpeg" alt="Online shipment tracking"></div>
+        <div class="reason-content">
+          <span class="reason-code">MIPL / TRACKING</span>
+          <h3>Online Tracking</h3>
+          <p>Online tracking provides shipment status updates so customers can follow progress from dispatch toward delivery.</p>
+        </div>
+      </div>
     </div>
-    <p style="margin-top:28px;color:rgba(255,255,255,.72);font-size:14px;">Customs inspections and clearance decisions are made by government authorities, not MIPL. Inspection requirements and transit times can vary by shipment.</p>
   </div>
 </section>
 
+<!-- ============================================================ INDUSTRIES -->
+<section class="section section-dim">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Service Regions</span>
+      <h2>Connecting Mexico with international destinations.</h2>
+    </div>
+    <div class="industry-grid">
+      <div class="industry-card"><span class="code">/ BASE</span><h3>Mexico</h3><p>MIPL is based in Silao de la Victoria, Guanajuato, Mexico.</p></div>
+      <div class="industry-card"><span class="code">/ DESTINATION</span><h3>Canada</h3><p>Cross-border shipment coordination between Mexico and Canada.</p></div>
+      <div class="industry-card"><span class="code">/ TRANSIT &amp; DESTINATION</span><h3>The United States</h3><p>Part of the Mexico-to-Canada route and a supported cross-border region.</p></div>
+      <div class="industry-card"><span class="code">/ DESTINATION</span><h3>South America</h3><p>Shipment coordination between Mexico and South American destinations.</p></div>
+      <div class="industry-card"><span class="code">/ DESTINATION</span><h3>Europe</h3><p>Shipment coordination between Mexico and European destinations.</p></div>
+    </div>
+    <p style="margin-top:24px; max-width:900px; font-size:13px; color:#4A5A66;">MIPL is a private logistics brand and is not a diplomatic mission, diplomatic courier, or representative of the Mexican Government or Secretaría de Relaciones Exteriores (SRE). Diplomatic privileges are not claimed.</p>
+  </div>
+</section>
+
+<!-- ============================================================ SERVICES SUMMARY -->
+<div class="stats-strip">
+  <div class="stat-block"><b>Sealed</b><span>Package handling</span></div>
+  <div class="stat-block"><b>Identified</b><span>Shipment identification</span></div>
+  <div class="stat-block"><b>Documented</b><span>Customs paperwork</span></div>
+  <div class="stat-block"><b>Tracked</b><span>Online shipment updates</span></div>
+</div>
+
+<!-- ============================================================ CTA -->
 <section class="cta-banner">
   <div class="wrap cta-inner">
-    <h2>Have a tracking number? Check your shipment online.</h2>
+    <h2>Have a tracking number? Follow your shipment online.</h2>
     <a href="my-shipment.html" class="btn btn-navy">Track Shipment</a>
   </div>
 </section>
 
+<!-- ============================================================ FOOTER -->
 <footer class="site-footer">
   <div class="wrap footer-grid">
     <div class="footer-brand">
-      <a href="index.html" class="brand" aria-label="MIPL home">
-        <span class="brand-mark"><img src="image/logo.png" alt="MIPL — Mexican International Protocol Logistics"></span>
+      <a href="index.html" class="brand" style="color:white;">
+        <span class="brand-mark"><img src="image/logo.png" alt="Mexican International Protocol Logistics logo"></span>
+        <span>Mexican International<br><small>Protocol Logistics</small></span>
       </a>
-      <p>Private cross-border logistics with sealed-package handling, customs documentation, chain-of-custody records, and online tracking.</p>
+      <p>Secure, documented cross-border shipments with sealed-package handling, customs documentation, chain-of-custody records, and online tracking.</p>
     </div>
     <div>
-      <h4>Explore</h4>
+      <h4>Sitemap</h4>
       <ul>
-        <li><a href="index.html#services">Services</a></li>
-        <li><a href="about-contact.html">About MIPL</a></li>
-        <li><a href="about-contact.html#contact">Contact</a></li>
+        <li><a href="index.html">Home &amp; Services</a></li>
+        <li><a href="about-contact.html">About Us</a></li>
+        <li><a href="about-contact.html#contact">Contact Us</a></li>
         <li><a href="my-shipment.html">Track a Shipment</a></li>
       </ul>
     </div>
     <div>
-      <h4>Route</h4>
-      <ul><li>Mexico</li><li>United States customs</li><li>Canada customs</li><li>Canadian delivery</li></ul>
+      <h4>Services</h4>
+      <ul>
+        <li><a href="index.html#services">Sealed-package handling</a></li>
+        <li><a href="index.html#services">Shipment identification</a></li>
+        <li><a href="index.html#services">Customs documentation</a></li>
+        <li><a href="index.html#services">Chain-of-custody records</a></li>
+        <li><a href="index.html#services">Online tracking</a></li>
+      </ul>
     </div>
     <div>
-      <h4>Mexico Office</h4>
-      <div class="footer-contact-line"><span>Calle Ignacio Allende, Centro, 36100 Silao de la Victoria, Gto., Mexico</span></div>
-      <div class="footer-contact-line"><a href="mailto:milogisticsprotocol@gmail.com">milogisticsprotocol@gmail.com</a></div>
+      <h4>Head Office</h4>
+      <div class="footer-contact-line">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        <span>Calle Ignacio Allende, Centro, 36100 Silao de la Victoria, Gto., Mexico</span>
+      </div>
+      <div class="footer-contact-line">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="m4 4 8 8 8-8"/></svg>
+        <a href="mailto:milogisticsprotocol@gmail.com">milogisticsprotocol@gmail.com</a>
+      </div>
     </div>
   </div>
   <div class="wrap footer-bottom">
-    <span>&copy; 2026 Mexican International.</span>
+    <span>&copy; 2026 Mexican International Protocol Logistics.</span>
   </div>
 </footer>
 <script src="js/mobile-menu.js"></script>

@@ -1,9 +1,9 @@
 /* ==========================================================================
-   MIPL — Apps Script backend for the shipment tracking sheet
+  MIPL — Apps Script backend for the shipment tracking sheet
 
    ENDPOINTS
-   - GET  ?id=MIPL-xxxxxxx-MXCA
-         Public. Used by my-shipment.html. Returns one shipment.
+     - GET  ?id=MIPL-xxxxxxx-MX
+       Public. Used by my-shipment.html. Returns one shipment.
 
    - GET  ?action=list&password=YOUR_PASSWORD
          Admin only. Used by admin.html. Returns every shipment row.
@@ -24,7 +24,7 @@
       (If this is your very first deploy: Deploy → New deployment → Web
       app → Execute as Me → Who has access Anyone → Deploy → authorize.)
    4. The Web app URL stays the same across "new version" deploys, so you
-      do NOT need to update my-shipment.html, request-shipment.html, or
+      do NOT need to update js/tracking.js, request-shipment.html, or
       admin.html when you only edit this file — just redeploy a new
       version after saving changes here.
    ========================================================================== */
@@ -57,7 +57,7 @@ function generateTrackingNumber_(sheet) {
   let id;
   do {
     const digits = Math.floor(1000000 + Math.random() * 8999999);
-    id = "MIPL-" + digits + "-MXCA";
+    id = "MIPL-" + digits + "-MX";
   } while (existing.has(id));
   return id;
 }

@@ -1,7 +1,7 @@
 /* ==========================================================================
-   MIPL — tracking page logic
+  MIPL — tracking page logic
    Live shipment data comes from a Google Apps Script Web App bound to the
-   shipment tracking sheet (see Code.gs). Staff update a row's Status
+  shipment tracking sheet (see Code.gs). Staff update a row's Status
    cell directly in the sheet; this page fetches that row live — no cache
    delay, unlike the old "publish to web" CSV approach.
 
@@ -9,8 +9,8 @@
    1. Deploy Code.gs as a Web App (see instructions at the top of that
       file) and paste the resulting URL below as APPS_SCRIPT_URL.
    2. Status in the sheet must be exactly one of (case-insensitive):
-        Picked Up | U.S. Customs Inspection | In Transit Through United States |
-        Canada Customs Inspection | Out For Delivery | Delivered
+        Picked Up | Departed Origin Hub | In Transit | Customs Inspection |
+        Arrived Destination Country | Out For Delivery | Delivered
    ========================================================================== */
 
 const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwLVjUCpPmQArtPeKw-bex55GP9xDf3F7qPrKPuaMvhRf1xf3a_ETEEy9Oy2A8DLc4OLQ/exec";
@@ -18,13 +18,35 @@ const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwLVjUCpPmQArtP
 (function(){
 
   const STAGE_ORDER = [
-    { key:"picked_up",        title:"Picked Up in Mexico",              match:"picked up",                         desc:"Shipment received for processing in Mexico." },
-    { key:"us_customs",       title:"U.S. Customs Inspection",           match:"u.s. customs inspection",            desc:"Shipment stopped for customs inspection in the United States." },
-    { key:"in_transit",       title:"In Transit Through United States", match:"in transit through united states", desc:"Shipment is continuing through the United States toward Canada." },
-    { key:"canada_customs",   title:"Canada Customs Inspection",         match:"canada customs inspection",          desc:"Shipment stopped for customs review in Canada." },
-    { key:"out_for_delivery", title:"Out for Delivery in Canada",        match:"out for delivery",                   desc:"Shipment is on its final delivery leg in Canada." },
-    { key:"delivered",        title:"Delivered",                        match:"delivered",                          desc:"Shipment delivered to the recipient." }
+    { key:"picked_up",        title:"Picked Up",                   match:"picked up",                    desc:"Collected from the origin facility." },
+    { key:"departed",         title:"Departed Origin Hub",         match:"departed origin hub",           desc:"Shipment has departed its origin facility." },
+    { key:"in_transit",       title:"In Transit",                  match:"in transit",                    desc:"Moving toward the destination country." },
+    { key:"customs_inspection", title:"Customs Inspection",        match:"customs inspection",             desc:"Shipment is undergoing a customs inspection. Customs authorities determine requirements and clearance." },
+    { key:"arrived",          title:"Arrived Destination Country", match:"arrived destination country",   desc:"Shipment has arrived in its destination country." },
+    { key:"out_for_delivery", title:"Out for Delivery",            match:"out for delivery",              desc:"Loaded onto final-mile vehicle for delivery." },
+    { key:"delivered",        title:"Delivered",                   match:"delivered",                     desc:"Delivered to the recipient." }
   ];
+
+  // Local fallback demo shipments — work even before Apps Script is deployed,
+  // so the page never looks broken during setup, and so sales demos always work.
+  const DEMO_SHIPMENTS = {
+    "MIPL-4471928-MX": {
+      id:"MIPL-4471928-MX", reference:"DEMO-REF-001", serviceType:"Cross-Border Shipment",
+      status:"In Transit",
+      origin:{ label:"Silao de la Victoria, Guanajuato, Mexico", lat:20.9436, lng:-101.427 },
+      current:{ label:"Laredo, Texas, United States", lat:27.5064, lng:-99.5075 },
+      destination:{ label:"Toronto, Ontario, Canada", lat:43.6532, lng:-79.3832 },
+      eta:"2026-11-10", lastUpdated:"2026-10-15", note:""
+    },
+    "MIPL-8802341-MX": {
+      id:"MIPL-8802341-MX", reference:"DEMO-REF-002", serviceType:"Cross-Border Shipment",
+      status:"Out For Delivery",
+      origin:{ label:"Silao de la Victoria, Guanajuato, Mexico", lat:20.9436, lng:-101.427 },
+      current:{ label:"São Paulo, Brazil", lat:-23.5505, lng:-46.6333 },
+      destination:{ label:"São Paulo, Brazil", lat:-23.5505, lng:-46.6333 },
+      eta:"2026-11-18", lastUpdated:"2026-10-15", note:""
+    }
+  };
 
   let lastLookupId = null;
   let autoRefreshTimer = null;
@@ -73,6 +95,8 @@ const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwLVjUCpPmQArtP
   }
 
   function findShipment(trackingId){
+    const id = trackingId.trim().toUpperCase();
+    if(DEMO_SHIPMENTS[id]) return Promise.resolve(DEMO_SHIPMENTS[id]);
     return fetchFromAppsScript(trackingId).catch(err => {
       console.error("MIPL tracking: lookup failed for", trackingId, "—", err);
       return null;
@@ -125,7 +149,7 @@ const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwLVjUCpPmQArtP
     const bounds = [];
 
     if(hasOrigin){
-      originMarker = L.marker([shipment.origin.lat, shipment.origin.lng], { icon: iconFor('#D6A12D') })
+      originMarker = L.marker([shipment.origin.lat, shipment.origin.lng], { icon: iconFor('#D2A33A') })
         .addTo(map).bindPopup(`<b>Origin</b><br>${shipment.origin.label}`);
       bounds.push([shipment.origin.lat, shipment.origin.lng]);
     }
@@ -242,7 +266,7 @@ const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwLVjUCpPmQArtP
     });
   });
 
-  // If the page loads with ?id=MIPL-xxxxxxx-MXCA in the URL (e.g. linked from the
+  // If the page loads with ?id=MIPL-xxxxxxx-MX in the URL (e.g. linked from the
   // shipment request confirmation), auto-fill and look it up.
   const params = new URLSearchParams(window.location.search);
   const prefillId = params.get('id');

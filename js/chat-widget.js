@@ -1,10 +1,9 @@
 /* ==========================================================================
-   MIPL — email support widget
+  MIPL — live support chat widget
    Front-end only for now: messages typed here are handed to our team by
-   email (milogisticsprotocol@gmail.com) so a real person can reply.
-   To make this fully real-time later, swap this file's contents for an
-   embed script from a live-chat provider (e.g. Tawk.to, Crisp, WhatsApp
-   Business) — the launcher button and panel markup below can stay as-is.
+  email (milogisticsprotocol@gmail.com) so a real person can reply.
+  To make this fully real-time later, replace the email handoff with a
+  live-chat provider integration; the launcher and panel markup can stay.
    ========================================================================== */
 
 (function(){
@@ -12,12 +11,12 @@
   const SUPPORT_EMAIL = "milogisticsprotocol@gmail.com";
 
   const widgetHTML = `
-    <button class="chat-launcher" id="chatLauncher" aria-label="Contact MIPL by email">
+    <button class="chat-launcher" id="chatLauncher" aria-label="Open live chat">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
       <span class="chat-dot"></span>
     </button>
 
-    <div class="chat-panel" id="chatPanel" role="dialog" aria-label="Email MIPL support">
+    <div class="chat-panel" id="chatPanel" role="dialog" aria-label="Live support chat">
       <div class="chat-head">
         <div class="chat-avatar">
           <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="7" width="15" height="11"/><path d="M16 10h4l3 3v5h-7z"/><circle cx="5.5" cy="20" r="1.8"/><circle cx="18.5" cy="20" r="1.8"/></svg>
@@ -32,7 +31,7 @@
       </div>
 
       <div class="chat-body" id="chatBody">
-        <div class="chat-msg from-agent">Hello, you’ve reached MIPL support. Have a tracking number, a quote question, or another shipment inquiry?</div>
+        <div class="chat-msg from-agent">Welcome to MIPL support. How can we help with your shipment?</div>
       </div>
 
       <div class="chat-quick" id="chatQuick">
@@ -47,7 +46,7 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m22 2-7 20-4-9-9-4z"/><path d="M22 2 11 13"/></svg>
         </button>
       </form>
-      <p class="chat-footnote">Your email app opens so you can send your message to <a href="mailto:${SUPPORT_EMAIL}">${SUPPORT_EMAIL}</a>.</p>
+      <p class="chat-footnote">Messages are sent to our team at <a href="mailto:${SUPPORT_EMAIL}">${SUPPORT_EMAIL}</a> so a live agent can reply directly.</p>
     </div>
   `;
 
@@ -81,13 +80,13 @@
     function sendToTeam(message){
       addMessage(message, 'from-user');
       quick.style.display = 'none';
-      const subject = encodeURIComponent(`Website message — MIPL`);
+      const subject = encodeURIComponent(`Website inquiry — MIPL`);
       const bodyText = encodeURIComponent(
         `A visitor sent the following message from the website chat widget:\n\n"${message}"\n\nReply directly to this email to continue the conversation with them.`
       );
       // Hand off to a real inbox so a live agent can pick it up.
       window.open(`mailto:${SUPPORT_EMAIL}?subject=${subject}&body=${bodyText}`, '_blank');
-      addSystem('Your email app should open. Send the message from your email app to contact MIPL.');
+      addSystem('Handed off to our team — your email app should open so you can send this straight to a live agent.');
     }
 
     launcher.addEventListener('click', () => {
