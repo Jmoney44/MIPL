@@ -38,27 +38,42 @@
 
 <!-- ============================================================ ABOUT -->
 <section class="section" id="about">
-  <div class="wrap split">
-    <div>
-      <span class="eyebrow">Who We Are</span>
-      <h2 style="margin-top:14px; font-size:clamp(28px,3.4vw,40px);">Secure, documented shipments between Mexico and international destinations.</h2>
-      <p style="margin-top:18px; font-size:15.5px; color:#4A5A66;">Mexican International Protocol Logistics (MIPL) is a private cross-border logistics service based in Silao de la Victoria, Guanajuato, Mexico. MIPL specializes in secure, documented shipments between Mexico, Canada, the United States, South America, and Europe. Services include sealed-package handling, shipment identification, customs documentation, chain-of-custody records, and online tracking.</p>
-      <div class="value-list">
-        <div class="value-item"><h4>Handling</h4><p>Sealed-package handling and shipment identification.</p></div>
-        <div class="value-item"><h4>Documentation</h4><p>Customs documentation for cross-border shipments.</p></div>
-        <div class="value-item"><h4>Custody</h4><p>Records of shipment handoffs and chain of custody.</p></div>
-        <div class="value-item"><h4>Visibility</h4><p>Online tracking for shipment progress.</p></div>
-      </div>
-      <div class="media-frame" style="height:220px; margin-top:32px;">
-        <img src="image/hero-placeholder.png" alt="MIPL cross-border logistics">
+  <div class="wrap about-content">
+    <div class="about-intro">
+      <span class="eyebrow">About MIPL Logistics</span>
+      <h2>Moving Your World Forward.</h2>
+      <p class="about-tagline">Your Cargo. Our Priority.</p>
+      <p>Mexican International Protocol Logistics (MIPL) is a logistics and transportation company committed to providing reliable, efficient, and customer-focused shipping solutions. We specialize in logistics coordination, freight transportation, domestic and international shipping, cross-border transportation support, and delivery services. Our goal is to simplify the movement of goods, connect businesses to new opportunities, and provide customers with a dependable shipping experience.</p>
+    </div>
+    <div class="about-banner media-frame">
+      <img src="image/about-banner.jpeg" alt="MIPL Logistics transportation services and commitment to moving your world forward">
+    </div>
+    <div class="about-values">
+      <article class="about-value">
+        <h3>Our Mission</h3>
+        <p>To deliver dependable logistics solutions through professionalism, efficient coordination, and a commitment to customer satisfaction.</p>
+      </article>
+      <article class="about-value">
+        <h3>Our Vision</h3>
+        <p>To become a trusted name in international logistics and transportation, connecting markets and businesses through reliable shipping solutions.</p>
+      </article>
+    </div>
+    <div class="about-why">
+      <span class="eyebrow">Why Choose MIPL?</span>
+      <div class="about-benefits">
+        <div class="about-benefit"><h4>Reliability</h4><p>We prioritize dependable service and careful shipment coordination.</p></div>
+        <div class="about-benefit"><h4>Efficiency</h4><p>We work to make shipping simpler and more organized.</p></div>
+        <div class="about-benefit"><h4>Customer Focus</h4><p>We put our customers' needs and satisfaction first.</p></div>
+        <div class="about-benefit"><h4>Global Connections</h4><p>We support logistics arrangements connecting local and international markets.</p></div>
+        <div class="about-benefit"><h4>Professionalism</h4><p>We value transparency, accountability, and responsible service.</p></div>
       </div>
     </div>
-    <div class="timeline">
-      <div class="timeline-item"><span class="yr">01</span><h4>Mexico</h4><p>MIPL is based in Silao de la Victoria, Guanajuato, Mexico.</p></div>
-      <div class="timeline-item"><span class="yr">02</span><h4>The United States</h4><p>Mexico-to-Canada shipments stop in the United States for a customs check.</p></div>
-      <div class="timeline-item"><span class="yr">03</span><h4>Canada</h4><p>Mexico-to-Canada shipments also undergo a customs check in Canada.</p></div>
-      <div class="timeline-item"><span class="yr">04</span><h4>South America</h4><p>MIPL coordinates cross-border shipments between Mexico and South America.</p></div>
-      <div class="timeline-item"><span class="yr">05</span><h4>Europe</h4><p>MIPL coordinates cross-border shipments between Mexico and Europe.</p></div>
+    <div class="about-commitment">
+      <h3>Our Commitment</h3>
+      <p>At MIPL, every shipment matters. We are committed to treating every customer with respect, coordinating shipments responsibly, and providing clear communication throughout the shipping process.</p>
+      <p class="about-signoff"><strong>MIPL Logistics</strong> &middot; Safe. Fast. Reliable.</p>
+      <p>Contact us today to discuss your shipping needs and discover the right logistics solution for you.</p>
+      <a class="btn btn-signal" href="#contact">Contact MIPL</a>
     </div>
   </div>
 </section>
@@ -96,8 +111,10 @@
 
       <div class="form-card" id="quote">
         <h3 style="font-size:22px; margin-bottom:6px;">Request a Quote</h3>
-        <p style="font-size:14px; color:#7A8792; margin-bottom:22px;">Fields marked with an asterisk are required. Your email application will open with your inquiry addressed to MIPL.</p>
-        <form id="contactForm" novalidate>
+        <p style="font-size:14px; color:#7A8792; margin-bottom:22px;">Fields marked with an asterisk are required. Your inquiry will be sent directly to MIPL.</p>
+        <form id="contactForm" action="https://formsubmit.co/milogisticsprotocol@gmail.com" method="POST">
+          <input type="hidden" name="_subject" value="MIPL shipment inquiry">
+          <input type="text" name="_honey" tabindex="-1" autocomplete="off" style="display:none">
           <div class="field-row">
             <div class="field"><label for="fname">Full name *</label><input id="fname" name="fname" type="text" required></div>
             <div class="field"><label for="company">Company</label><input id="company" name="company" type="text"></div>
@@ -119,7 +136,7 @@
             </div>
             <div class="field">
               <label for="lane">Origin → Destination</label>
-              <input id="lane" name="lane" type="text" placeholder="e.g. Silao, Mexico → Toronto, Canada">
+              <input id="lane" name="lane" type="text" placeholder="e.g. Mexico → Seattle">
             </div>
           </div>
           <div class="field">
@@ -130,11 +147,12 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m22 2-7 20-4-9-9-4z"/><path d="M22 2 11 13"/></svg>
             Send Message
           </button>
-          <p class="form-note">Your message is prepared as an email to milogisticsprotocol@gmail.com.</p>
-          <div class="form-success" id="formSuccess">
+          <p class="form-note">Your message will be sent to milogisticsprotocol@gmail.com.</p>
+          <div class="form-success" id="formSuccess" role="status" aria-live="polite">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m22 4-10 10-3-3"/></svg>
-            <span>Your email application should open with your message ready to send.</span>
+            <span>Your inquiry was sent to MIPL. Thank you for contacting us.</span>
           </div>
+          <div class="form-error" id="formError" role="alert" hidden></div>
         </form>
       </div>
 

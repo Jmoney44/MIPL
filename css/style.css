@@ -337,7 +337,7 @@ input,select,textarea{ font-family:inherit; font-size:inherit; }
 }
 .cta-inner{ display:flex; align-items:center; justify-content:space-between; gap:24px; flex-wrap:wrap; }
 .cta-inner h2{ color:var(--white); font-size:clamp(26px,3vw,36px); max-width:520px; }
-.cta-inner .btn-navy{ flex-shrink:0; }
+.cta-inner .btn-navy{ flex-shrink:0; border:1.5px solid var(--signal); }
 
 /* ---------------------------------------------------------------- page hero (interior pages) */
 .page-hero{
@@ -352,6 +352,28 @@ input,select,textarea{ font-family:inherit; font-size:inherit; }
 .breadcrumb span{ color:var(--signal); }
 
 /* ---------------------------------------------------------------- about page */
+.about-content{ display:grid; gap:44px; }
+.about-banner{ background:var(--white); }
+.about-banner img{ width:100%; height:auto; object-fit:contain; }
+.about-intro{ max-width:850px; }
+.about-intro h2{ font-size:clamp(30px,3.6vw,44px); margin:14px 0 8px; }
+.about-intro > p:not(.about-tagline){ margin-top:20px; font-size:16px; color:#4A5A66; }
+.about-tagline{ color:var(--navy-700); font-family:var(--font-mono); font-weight:600; letter-spacing:0.06em; }
+.about-values{ display:grid; grid-template-columns:repeat(2,1fr); gap:22px; }
+.about-value{ padding:28px; background:var(--white); border-top:3px solid var(--signal); }
+.about-value h3, .about-commitment h3{ font-size:24px; margin-bottom:12px; }
+.about-value p, .about-commitment p{ font-size:15px; color:#4A5A66; }
+.about-why{ padding-top:8px; }
+.about-benefits{ display:grid; grid-template-columns:repeat(3,1fr); gap:22px; margin-top:24px; }
+.about-benefit{ border-left:3px solid var(--signal); padding:4px 0 4px 16px; }
+.about-benefit h4{
+  font-family:var(--font-mono); font-size:13px; letter-spacing:0.06em;
+  text-transform:uppercase; color:var(--navy-900); margin-bottom:6px;
+}
+.about-benefit p{ font-size:14px; color:#4A5A66; }
+.about-commitment{ max-width:850px; }
+.about-commitment .about-signoff{ margin:20px 0 8px; color:var(--navy-900); font-size:18px; }
+.about-commitment .btn{ margin-top:20px; }
 .split{
   display:grid; grid-template-columns:1fr 1fr; gap:64px; align-items:center;
 }
@@ -419,6 +441,10 @@ input,select,textarea{ font-family:inherit; font-size:inherit; }
 }
 .form-success.show{ display:flex; }
 .form-success svg{ width:18px; height:18px; flex-shrink:0; }
+.form-error:not([hidden]){
+  display:block; background:#FFF0EF; border:1px solid #F2C3BF;
+  color:#9B2C22; padding:14px 16px; border-radius:4px; font-size:14px; margin-top:16px;
+}
 
 .map-embed{
   border-radius:4px; overflow:hidden; border:1px solid var(--line); height:340px;
@@ -588,12 +614,14 @@ input,select,textarea{ font-family:inherit; font-size:inherit; }
   .card-grid{ grid-template-columns:repeat(2,1fr); }
   .industry-grid{ grid-template-columns:repeat(2,1fr); }
   .stats-strip{ grid-template-columns:repeat(2,1fr); }
-  .stat-block:nth-child(3){ border-left:none; }
-  .hero-grid, .split, .contact-grid, .track-columns{ grid-template-columns:1fr; }
+  .stat-block:nth-child(2n+1){ border-left:none; }
+  .split, .contact-grid, .track-columns{ grid-template-columns:1fr; }
   .reason-img{ width:180px; height:130px; }
   .track-summary{ grid-template-columns:repeat(3,1fr); }
+  .about-benefits{ grid-template-columns:repeat(2,1fr); }
 }
 @media (max-width:720px){
+  .hero-grid{ grid-template-columns:1fr; }
   .header-inner{ height:auto; min-height:72px; padding-top:8px; padding-bottom:8px; flex-wrap:wrap; gap:12px; }
   .brand{ flex:1; min-width:0; white-space:normal; }
   .brand-mark{ width:136px; height:76px; }
@@ -609,6 +637,8 @@ input,select,textarea{ font-family:inherit; font-size:inherit; }
   .main-nav a.is-active::after{ display:none; }
   .nav-cta{ margin-left:0; }
   .stats-strip{ grid-template-columns:1fr; }
+  .stat-block{ border-left:none; }
+  .stat-block:nth-child(n+2){ border-top:1px solid rgba(255,255,255,0.1); }
   .contact-grid > *, .contact-card, .form-card, .field-row, .field{ min-width:0; }
   .contact-card .line > span, .contact-card .line > a,
   .footer-contact-line > span, .footer-contact-line > a{ min-width:0; overflow-wrap:anywhere; }
@@ -620,6 +650,7 @@ input,select,textarea{ font-family:inherit; font-size:inherit; }
   .cta-inner{ flex-direction:column; align-items:flex-start; }
   .reason-row, .reason-row:nth-child(odd){ flex-direction:column; align-items:stretch; gap:18px; padding:26px 0; }
   .reason-img{ width:100%; height:180px; }
+  .about-values, .about-benefits{ grid-template-columns:1fr; }
 }
 
 /* ============================================================ live chat widget */
