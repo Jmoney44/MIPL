@@ -176,9 +176,8 @@
   <div id="renderErrorBox" style="display:none; margin-top:14px; background:#FDECEA; border:1px solid #F5C2BC; color:#B23A2E; padding:12px 16px; border-radius:4px; font-size:13px; font-family:var(--font-mono);"></div>
 
   <p style="font-size:12.5px; color:#7A8792; margin-top:14px; font-family:var(--font-mono);">
-    Tip: Lat/Lng now fill in automatically from whatever you type in Current Location — leave them
-    blank and just update the location text. Only fill Lat/Lng manually if the auto-lookup gets a
-    place wrong or you want to pin an exact address.
+    Tip: Edit Current Location and save to look up Lat/Lng automatically. If the location cannot be
+    found, enter both coordinates manually or use them to pin an exact address.
   </p>
 </div>
 
@@ -371,7 +370,10 @@ function renderShipments(shipments){
             ${STATUS_SUGGESTIONS.map(opt => `<option value="${opt}">`).join('')}
           </datalist>
         </td>
-        <td><input class="f-current" type="text" value="${safe(s.CurrentLabel).replace(/"/g,'&quot;')}" placeholder="Current location"></td>
+        <td>
+          <input class="f-current" type="text" value="${safe(s.CurrentLabel).replace(/"/g,'&quot;')}" placeholder="Current location">
+          <small class="f-location-status" aria-live="polite" style="display:block; margin-top:4px; color:#7A8792;"></small>
+        </td>
         <td style="display:flex; gap:6px; min-width:150px;">
           <input class="f-lat" type="text" inputmode="decimal" value="${safe(s.CurrentLat)}" placeholder="Lat" style="min-width:64px;">
           <input class="f-lng" type="text" inputmode="decimal" value="${safe(s.CurrentLng)}" placeholder="Lng" style="min-width:64px;">
@@ -390,7 +392,33 @@ function renderShipments(shipments){
       tr.dataset.serviceType = safe(s.ServiceType);
       tr.dataset.originLabel = safe(s.OriginLabel);
       tr.dataset.destination = safe(s.Destination);
+      tr.dataset.currentLabel = safe(s.CurrentLabel);
+      tr.dataset.currentLat = safe(s.CurrentLat);
+      tr.dataset.currentLng = safe(s.CurrentLng);
 
+      tr.querySelector('.f-current').addEventListener('input', function(){
+        const status = tr.querySelector('.f-location-status');
+        const latInput = tr.querySelector('.f-lat');
+        const lngInput = tr.querySelector('.f-lng');
+        if(this.value.trim() === tr.dataset.currentLabel.trim()){
+          latInput.value = tr.dataset.currentLat;
+          lngInput.value = tr.dataset.currentLng;
+          status.textContent = '';
+          return;
+        }
+        latInput.value = '';
+        lngInput.value = '';
+        status.textContent = 'Coordinates will be looked up when you save.';
+      });
+      tr.querySelectorAll('.f-lat, .f-lng').forEach(input => {
+        input.addEventListener('input', function(){
+          const lat = tr.querySelector('.f-lat').value.trim();
+          const lng = tr.querySelector('.f-lng').value.trim();
+          tr.querySelector('.f-location-status').textContent = lat && lng
+            ? 'Manual coordinates will be used.'
+            : 'Enter both coordinates to use them manually; otherwise location is looked up.';
+        });
+      });
       tr.querySelector('.row-edit').addEventListener('click', function(){
         openEditModal(s.TrackingNumber, tr);
       });
@@ -559,9 +587,24 @@ function saveRow(trackingNumber, tr, btn){
     .then(data => {
       btn.disabled = false;
       if(data.success){
+        const latInput = tr.querySelector('.f-lat');
+        const lngInput = tr.querySelector('.f-lng');
+        const locationStatus = tr.querySelector('.f-location-status');
+        latInput.value = data.currentLat === undefined || data.currentLat === null ? '' : data.currentLat;
+        lngInput.value = data.currentLng === undefined || data.currentLng === null ? '' : data.currentLng;
+        tr.dataset.currentLabel = tr.querySelector('.f-current').value.trim();
+        tr.dataset.currentLat = latInput.value;
+        tr.dataset.currentLng = lngInput.value;
+        locationStatus.textContent = data.currentCoordinatesAvailable
+          ? 'Coordinates updated.'
+          : 'Location saved, but coordinates were not found. Enter them manually.';
         btn.textContent = 'Saved ✓';
         btn.classList.add('saved');
-        setTimeout(() => { btn.textContent = 'Save'; btn.classList.remove('saved'); }, 1800);
+        setTimeout(() => {
+          btn.textContent = 'Save';
+          btn.classList.remove('saved');
+          locationStatus.textContent = '';
+        }, 4000);
       } else {
         btn.textContent = 'Failed — retry';
       }

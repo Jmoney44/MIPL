@@ -288,14 +288,16 @@ function handleUpdateStatus_(data) {
 
         let currentLat = data.currentLat;
         let currentLng = data.currentLng;
-        if ((!currentLat || !currentLng) && data.currentLabel) {
+        const missingCurrentCoordinates = currentLat === undefined || currentLat === "" ||
+          currentLng === undefined || currentLng === "";
+        if (missingCurrentCoordinates && data.currentLabel) {
           const g = geocode_(data.currentLabel);
           if (g) { currentLat = g.lat; currentLng = g.lng; }
         }
-        if (currentLat !== undefined && currentLat !== "") {
+        if (currentLat !== undefined) {
           sheet.getRange(rowNum, colIndex["CurrentLat"] + 1).setValue(currentLat);
         }
-        if (currentLng !== undefined && currentLng !== "") {
+        if (currentLng !== undefined) {
           sheet.getRange(rowNum, colIndex["CurrentLng"] + 1).setValue(currentLng);
         }
         if (data.note !== undefined) {
@@ -314,7 +316,13 @@ function handleUpdateStatus_(data) {
         const today = Utilities.formatDate(new Date(), "GMT", "yyyy-MM-dd");
         sheet.getRange(rowNum, colIndex["LastUpdated"] + 1).setValue(today);
 
-        return jsonOut_({ success: true });
+        return jsonOut_({
+          success: true,
+          currentLat: currentLat === undefined ? "" : currentLat,
+          currentLng: currentLng === undefined ? "" : currentLng,
+          currentCoordinatesAvailable: currentLat !== undefined && currentLat !== "" &&
+            currentLng !== undefined && currentLng !== ""
+        });
       }
     }
     return jsonOut_({ success: false, error: "Tracking number not found" });
