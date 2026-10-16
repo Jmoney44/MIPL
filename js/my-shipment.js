@@ -1,4 +1,4 @@
-const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx4LK14cbdDUWrHvPXVLI4QjLYGd6Mxth3Ch01GW7V7Fj_4EIONiW8EQS7JSaVALgV0/exec";
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzjE4WszH2PcKHfyVx1LvivESppOpOrwwrN8gOk8XDVzptm1cXxoEJ2cODdllGqSU_e/exec";
 const AUTO_REFRESH_MS = 30000;
 
 function loadLeaflet() {
